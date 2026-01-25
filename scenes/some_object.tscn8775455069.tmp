@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://6df1owgjn6np"]
+
+[ext_resource type="Script" uid="uid://bny4tt21prmuh" path="res://scripts/some_object.gd" id="1_fxy4v"]
+[ext_resource type="Script" uid="uid://crmnw3ldr3xev" path="res://scripts/draggable.gd" id="2_3yrk3"]
+
+[node name="SomeObject" type="Area2D"]
+scale = Vector2(1e-05, 1e-05)
+script = ExtResource("1_fxy4v")
+
+[node name="Draggable" type="Node" parent="."]
+script = ExtResource("2_3yrk3")
+dragging_speed = 21.0
+metadata/_custom_type_script = "uid://crmnw3ldr3xev"

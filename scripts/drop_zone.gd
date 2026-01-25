@@ -1,0 +1,170 @@
+@icon("res://icons/DropZone.svg")
+extends Node
+class_name DropZone
+
+signal drop_evaluated(zone: DropZone, area: Area2D, plan: DropPlan)
+signal drop_rejected(zone: DropZone, area: Area2D, plan: DropPlan)
+signal drop_accepted(zone: DropZone, area: Area2D, plan: DropPlan)
+signal drop_applied(zone: DropZone, area: Area2D, plan: DropPlan)
+signal occupant_changed(zone: DropZone, spot: SnappingSpot, old_occupant: Area2D, new_occupant: Area2D)
+
+enum SNAP_STYLE { 
+	## Draggable won't snap. It will, instead, stay at its position when dragging stops. 
+	NO_SNAP, 
+	## Draggable snaps to the transform center of the parent area 
+	SNAP_CENTER, 
+	## Draggable snaps to marker children of the DropZone. If there are no marker children, defaults to NO_SNAP 
+	SNAP_MARKERS 
+}
+
+@export var attach_spot: Node2D
+@export var snap_style := SNAP_STYLE.SNAP_MARKERS
+@export var drop_behavior: DropBehavior = DropBehaviorReject.new()
+@export var accepted_draggable_types: Array[DraggableType] = []
+var snapping_points: Array[SnappingSpot] = []
+var o: Area2D = null
+
+#region Lifecycle
+
+func _ready():
+	o = owner as Area2D
+	assert(o != null, "DropZone node '%s' must be owned by an Area2D node" % name)
+	o.set_meta("dropzone", self)
+	if not attach_spot:
+		attach_spot = o
+	if accepted_draggable_types.size() == 0:
+		accepted_draggable_types.append(DraggableType.new())
+	_initialize_snapping_positions()
+
+#endregion
+
+#region Exposed Functions
+
+func try_dropping(area: Area2D):
+	var plan := drop_behavior.evaluate(self, area)
+	drop_evaluated.emit(self, area, plan)
+	
+	if not plan.can_drop:
+		drop_rejected.emit(self, area, plan)
+		return null
+	
+	drop_accepted.emit(self, area, plan)
+	_apply_plan(plan, area)
+	drop_applied.emit(self, area, plan)
+	if plan.drop_target:
+		return plan.drop_target.point.global_position
+	return area.global_position
+
+#endregion
+
+#region Internal Functions
+
+func _initialize_snapping_positions():
+	snapping_points.clear()
+
+	match snap_style:
+		SNAP_STYLE.NO_SNAP:
+			# No snapping points at all
+			return
+
+		SNAP_STYLE.SNAP_CENTER:
+			var spot := SnappingSpot.new()
+			spot.point = o
+			spot.occupant = null
+			snapping_points.append(spot)
+
+		SNAP_STYLE.SNAP_MARKERS:
+			for child in get_children():
+				if child is Marker2D:
+					var spot := SnappingSpot.new()
+					spot.point = child
+					spot.occupant = null
+					snapping_points.append(spot)
+
+			if snapping_points.is_empty():
+				return
+	
+func _apply_plan(plan: DropPlan, dropped_area: Area2D) -> void:
+	# 1. In case I move the draggable within the same area, I detach it first
+	_detach(dropped_area)
+
+	# 2. Execute side-effects (Evictions, Relocations, anything really)
+	for action in plan.actions:
+		action.execute(self)
+
+	# 3. Finalize drop
+	if plan.drop_target:
+		var current_occupant = plan.drop_target.occupant
+		if current_occupant and current_occupant != dropped_area:
+			_detach(current_occupant)
+		
+		plan.drop_target.occupant = dropped_area
+		occupant_changed.emit(self, plan.drop_target, null, dropped_area)
+		_attach(dropped_area)
+	else:
+		# NO_SNAP: still track occupancy so signals and utilities work
+		if snap_style == SNAP_STYLE.NO_SNAP:
+			_attach(dropped_area)
+			_make_ephemeral_spot(dropped_area)
+	
+func _attach(area: Area2D):
+	if area.get_parent():
+		area.reparent(attach_spot)
+	else:
+		attach_spot.add_child(area)
+	
+	var draggable = area.get_meta("draggable")
+	if draggable:
+		draggable.drag_started.connect(_on_draggable_drag_started, CONNECT_ONE_SHOT)
+		
+func _detach(area: Area2D):
+	DropUtils.clear_occupant_reference(self, area)
+	
+	var draggable = area.get_meta("draggable")
+	if draggable and draggable.drag_started.is_connected(_on_draggable_drag_started):
+			draggable.drag_started.disconnect(_on_draggable_drag_started)
+
+	# For NO_SNAP, remove ephemeral spots that tracked this area
+	if snap_style == SNAP_STYLE.NO_SNAP:
+		_remove_ephemeral_spots_for(area)
+#endregion
+
+#region Signal Handlers
+
+func _on_draggable_drag_started(area: Area2D):
+	area.reparent(get_tree().root) # Temporary reparent to root while draggable in hand
+	for entry in snapping_points:
+		if entry.occupant == area:
+			entry.occupant = null
+			occupant_changed.emit(self, entry, area, null)
+
+	# For NO_SNAP, remove ephemeral spots that were tracking this area
+	if snap_style == SNAP_STYLE.NO_SNAP:
+		_remove_ephemeral_spots_for(area)
+
+#endregion
+
+#region Ephemeral Spot Helpers (NO_SNAP)
+
+func _make_ephemeral_spot(area: Area2D) -> SnappingSpot:
+	var spot := SnappingSpot.new()
+	spot.point = area
+	spot.occupant = area
+	spot.ephemeral = true
+	snapping_points.append(spot)
+	occupant_changed.emit(self, spot, null, area)
+	return spot
+
+func _remove_ephemeral_spots_for(area: Area2D) -> void:
+	for i in range(snapping_points.size() - 1, -1, -1):
+		var s: SnappingSpot = snapping_points[i]
+		if s.ephemeral and s.point == area:
+			snapping_points.remove_at(i)
+
+func _find_ephemeral_spot_for(area: Area2D) -> SnappingSpot:
+	for s in snapping_points:
+		if s.ephemeral and s.point == area:
+			return s
+	return null
+
+#endregion

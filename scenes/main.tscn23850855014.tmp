@@ -1,0 +1,131 @@
+[gd_scene load_steps=5 format=3 uid="uid://ij8riemxxwf1"]
+
+[ext_resource type="PackedScene" uid="uid://6df1owgjn6np" path="res://scenes/some_object.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://c3ikheb36ieoi" path="res://scenes/tree.tscn" id="2_0wfyh"]
+[ext_resource type="Texture2D" uid="uid://wdt8m3rxph6i" path="res://assets/bauble_sparkle_3.png" id="2_sugp2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jyhfs"]
+radius = 77.05842
+
+[node name="Main" type="Node2D"]
+
+[node name="Tree" parent="." instance=ExtResource("2_0wfyh")]
+position = Vector2(605, 346)
+scale = Vector2(0.5, 0.5)
+
+[node name="SomeObject" parent="." node_paths=PackedStringArray("sprite", "collision") instance=ExtResource("1_o5qli")]
+position = Vector2(127.00003, 167)
+scale = Vector2(0.2, 0.2)
+sprite = NodePath("Sprite2D")
+collision = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SomeObject"]
+position = Vector2(0, -16)
+texture = ExtResource("2_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SomeObject"]
+shape = SubResource("CircleShape2D_jyhfs")
+
+[node name="SomeObject2" parent="." node_paths=PackedStringArray("sprite", "collision") instance=ExtResource("1_o5qli")]
+position = Vector2(121, 227)
+scale = Vector2(0.2, 0.2)
+sprite = NodePath("Sprite2D")
+collision = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SomeObject2"]
+position = Vector2(0, -16)
+texture = ExtResource("2_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SomeObject2"]
+shape = SubResource("CircleShape2D_jyhfs")
+
+[node name="SomeObject3" parent="." node_paths=PackedStringArray("sprite", "collision") instance=ExtResource("1_o5qli")]
+position = Vector2(123, 283)
+scale = Vector2(0.2, 0.2)
+sprite = NodePath("Sprite2D")
+collision = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SomeObject3"]
+position = Vector2(0, -16)
+texture = ExtResource("2_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SomeObject3"]
+shape = SubResource("CircleShape2D_jyhfs")
+
+[node name="SomeObject4" parent="." node_paths=PackedStringArray("sprite", "collision") instance=ExtResource("1_o5qli")]
+position = Vector2(123, 352)
+scale = Vector2(0.2, 0.2)
+sprite = NodePath("Sprite2D")
+collision = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SomeObject4"]
+position = Vector2(0, -16)
+texture = ExtResource("2_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SomeObject4"]
+shape = SubResource("CircleShape2D_jyhfs")
+
+[node name="SomeObject5" parent="." node_paths=PackedStringArray("sprite", "collision") instance=ExtResource("1_o5qli")]
+position = Vector2(185, 283)
+scale = Vector2(0.2, 0.2)
+sprite = NodePath("Sprite2D")
+collision = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SomeObject5"]
+position = Vector2(0, -16)
+texture = ExtResource("2_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SomeObject5"]
+shape = SubResource("CircleShape2D_jyhfs")
+
+[node name="SomeObject6" parent="." node_paths=PackedStringArray("sprite", "collision") instance=ExtResource("1_o5qli")]
+position = Vector2(183, 369)
+scale = Vector2(0.2, 0.2)
+sprite = NodePath("Sprite2D")
+collision = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SomeObject6"]
+position = Vector2(0, -16)
+texture = ExtResource("2_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SomeObject6"]
+shape = SubResource("CircleShape2D_jyhfs")
+
+[node name="SomeObject7" parent="." node_paths=PackedStringArray("sprite", "collision") instance=ExtResource("1_o5qli")]
+position = Vector2(234, 311)
+scale = Vector2(0.2, 0.2)
+sprite = NodePath("Sprite2D")
+collision = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SomeObject7"]
+position = Vector2(0, -16)
+texture = ExtResource("2_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SomeObject7"]
+shape = SubResource("CircleShape2D_jyhfs")
+
+[node name="SomeObject8" parent="." node_paths=PackedStringArray("sprite", "collision") instance=ExtResource("1_o5qli")]
+position = Vector2(219, 202)
+scale = Vector2(0.2, 0.2)
+sprite = NodePath("Sprite2D")
+collision = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SomeObject8"]
+position = Vector2(0, -16)
+texture = ExtResource("2_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SomeObject8"]
+shape = SubResource("CircleShape2D_jyhfs")
+
+[node name="SomeObject9" parent="." node_paths=PackedStringArray("sprite", "collision") instance=ExtResource("1_o5qli")]
+position = Vector2(198, 125.00001)
+scale = Vector2(0.2, 0.2)
+sprite = NodePath("Sprite2D")
+collision = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SomeObject9"]
+position = Vector2(0, -16)
+texture = ExtResource("2_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SomeObject9"]
+shape = SubResource("CircleShape2D_jyhfs")

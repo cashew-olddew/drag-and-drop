@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://dy0bdhld6sd7m"]
+
+[ext_resource type="Texture2D" uid="uid://wdt8m3rxph6i" path="res://assets/bauble_sparkle_3.png" id="1_g48b7"]
+[ext_resource type="Script" uid="uid://crmnw3ldr3xev" path="res://scripts/draggable.gd" id="2_4nqyb"]
+[ext_resource type="Script" uid="uid://djdmnemxrx7bg" path="res://resources/draggable_types/draggable_type.gd" id="3_tsf7w"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4nqyb"]
+radius = 15.231546
+
+[sub_resource type="Resource" id="Resource_8lsrh"]
+script = ExtResource("3_tsf7w")
+id = "bauble"
+metadata/_custom_type_script = "uid://djdmnemxrx7bg"
+
+[node name="Bauble" type="Area2D"]
+metadata/draggable = Object(Node,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","script":ExtResource("2_4nqyb"),"dragging_speed":20.0,"type":SubResource("Resource_8lsrh"),"drag_input_name":&"draggable_click","drag_z_index":1000,"metadata/_custom_type_script":"uid://crmnw3ldr3xev")
+
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -4.0000005)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_g48b7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4nqyb")
+
+[node name="Draggable" type="Node" parent="."]
+script = ExtResource("2_4nqyb")
+dragging_speed = 20.0
+type = SubResource("Resource_8lsrh")
+metadata/_custom_type_script = "uid://crmnw3ldr3xev"
