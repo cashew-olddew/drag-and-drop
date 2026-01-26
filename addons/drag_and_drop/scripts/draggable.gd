@@ -59,6 +59,7 @@ func _handle_dragging(delta: float) -> void:
 func _handle_dropping(delta: float) -> void:
 	_move_toward(next_position, delta)
 	
+	# TODO: Find a better way of "arriving" to the next_position
 	if o.global_position.distance_to(next_position) <= 2.0:
 		previous_position = next_position
 		o.global_position = next_position

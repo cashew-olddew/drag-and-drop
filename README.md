@@ -11,7 +11,6 @@ A simple and extensible drag and drop plugin for Godot.
 - **DropAction** - Extensible resource to define _how_ the DropBehavior is executed.
 
 ### Draggable Parameters
----
 
 `dragging_speed` (float, default: 50.0)
 
@@ -40,7 +39,6 @@ Controls the z-index of the draggable node while it is being dragged. This ensur
 ---
 
 ### DropZone Parameters
----
 
 `attach_spot` (Node2D, default: DropZone owner)
 
@@ -159,3 +157,19 @@ See examples of drop action implementations in [drop_actions](./addons/drag_and_
   - Ephemeral spot create in `NO_SNAP` (`_make_ephemeral_spot`)
 
 Typical flow: `drop_evaluated -> drop_accepted/drop_rejected -> drop_applied`
+
+## Contributing
+
+If you find any bugs or improvement ideas, feel free to [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#about-forks) this repository and suggest a change.
+
+If you'd like to see an improvement, but don't know how to contribute, you can [create an Issue](https://github.com/cashew-olddew/drag-and-drop/issues/new).
+
+## License
+
+This project and shader falls under the [CC0](LICENSE) license, meaning that you can do anything you want with the code here, even use it commercially. You do not have any obligation to credit me, but doing so would be highly appreciated.
+
+## Support
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H2H2XSCXW)
+
+Donations are appreciated and help me continue creating free content. Please donate only what you can afford. 🥜

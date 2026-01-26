@@ -3,8 +3,8 @@ class_name ActionRelocate extends DropAction
 var occupant: Area2D
 var target_spot: SnappingSpot
 
-func _init(p_item: Area2D, p_spot: SnappingSpot):
-	occupant = p_item
+func _init(p_occupant: Area2D, p_spot: SnappingSpot):
+	occupant = p_occupant
 	target_spot = p_spot
 
 func execute(zone: DropZone) -> void:
