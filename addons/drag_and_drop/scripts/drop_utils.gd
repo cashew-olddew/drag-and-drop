@@ -32,9 +32,7 @@ static func evaluate_drop_target(
 		result.target = null
 		return result
 
-	var target := closest_free_spot(zone, area) \
-		if require_free \
-		else closest_spot(zone, area)
+	var target := closest_spot(zone, area, require_free)
 
 	if target:
 		result.can_drop = true
@@ -43,31 +41,14 @@ static func evaluate_drop_target(
 
 static func closest_spot(
 	zone: DropZone,
-	area: Area2D
-) -> SnappingSpot:
-	var best = null
-	var best_dist := INF
-	
-	for spot in zone.snapping_points:
-		var d := area.global_position.distance_to(
-			spot.point.global_position
-		)
-
-		if d < best_dist:
-			best_dist = d
-			best = spot
-
-	return best
-
-static func closest_free_spot(
-	zone: DropZone,
-	area: Area2D
+	area: Area2D,
+	require_free: bool = false
 ) -> SnappingSpot:
 	var best = null
 	var best_dist := INF
 
 	for spot in zone.snapping_points:
-		if spot.occupant != null:
+		if require_free and spot.occupant != null:
 			continue
 
 		var d := area.global_position.distance_to(

@@ -10,10 +10,14 @@ config_version=5
 
 [application]
 
-config/name="event-bus"
-run/main_scene="uid://canlwuh4r2vmp"
+config/name="drag-and-drop"
+run/main_scene="uid://c4lx3rs78ydj3"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/drag_and_drop/plugin.cfg")
 
 [input]
 

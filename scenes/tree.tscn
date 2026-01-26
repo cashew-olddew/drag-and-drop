@@ -1,17 +1,16 @@
 [gd_scene load_steps=7 format=3 uid="uid://c3ikheb36ieoi"]
 
-[ext_resource type="Script" uid="uid://nj1hdjl1vob2" path="res://scripts/drop_zone.gd" id="2_bwx5j"]
+[ext_resource type="Script" uid="uid://nj1hdjl1vob2" path="res://addons/drag_and_drop/scripts/drop_zone.gd" id="2_bwx5j"]
 [ext_resource type="Texture2D" uid="uid://dvu3ulj3i4e4o" path="res://assets/tree.png" id="2_qoq06"]
-[ext_resource type="Script" uid="uid://b3yrcfpcbpfhu" path="res://resources/drop_behaviors/drop_behavior_replace.gd" id="3_viusy"]
-[ext_resource type="Script" uid="uid://djdmnemxrx7bg" path="res://resources/draggable_types/draggable_type.gd" id="4_qd6xs"]
-
-[sub_resource type="Resource" id="Resource_qd6xs"]
-script = ExtResource("3_viusy")
-metadata/_custom_type_script = "uid://b3yrcfpcbpfhu"
+[ext_resource type="Script" uid="uid://b5wqxyc42r5u" path="res://addons/drag_and_drop/resources/drop_behaviors/drop_behavior_reject.gd" id="3_qd6xs"]
+[ext_resource type="Script" uid="uid://djdmnemxrx7bg" path="res://addons/drag_and_drop/resources/draggable_types/draggable_type.gd" id="4_qd6xs"]
 
 [sub_resource type="Resource" id="Resource_ake3r"]
+script = ExtResource("3_qd6xs")
+metadata/_custom_type_script = "uid://b5wqxyc42r5u"
+
+[sub_resource type="Resource" id="Resource_18mvg"]
 script = ExtResource("4_qd6xs")
-id = "bauble"
 metadata/_custom_type_script = "uid://djdmnemxrx7bg"
 
 [node name="Tree" type="Area2D"]
@@ -23,29 +22,29 @@ polygon = PackedVector2Array(-46, -497.2, -46, -493, -47.700012, -483, -49.20001
 texture = ExtResource("2_qoq06")
 
 [node name="DropZone" type="Node2D" parent="." node_paths=PackedStringArray("attach_spot")]
-position = Vector2(0, -6)
 script = ExtResource("2_bwx5j")
 attach_spot = NodePath("../Decorations")
-snap_style = 0
-drop_behavior = SubResource("Resource_qd6xs")
-accepted_draggable_types = Array[ExtResource("4_qd6xs")]([SubResource("Resource_ake3r")])
-
-[node name="Star" type="Marker2D" parent="DropZone"]
-position = Vector2(-32, -445)
+snap_style = 1
+drop_behavior = SubResource("Resource_ake3r")
+accepted_draggable_types = Array[ExtResource("4_qd6xs")]([SubResource("Resource_18mvg")])
+metadata/_custom_type_script = "uid://nj1hdjl1vob2"
 
 [node name="Place" type="Marker2D" parent="DropZone"]
-position = Vector2(-21, 319)
+position = Vector2(-21, 313)
 
 [node name="Place2" type="Marker2D" parent="DropZone"]
-position = Vector2(179, 276)
+position = Vector2(179, 270)
 
 [node name="Place3" type="Marker2D" parent="DropZone"]
-position = Vector2(-214, 265)
+position = Vector2(-214, 259)
 
 [node name="Place4" type="Marker2D" parent="DropZone"]
-position = Vector2(-127, 300)
+position = Vector2(-127, 294)
 
 [node name="Place5" type="Marker2D" parent="DropZone"]
-position = Vector2(94, 300)
+position = Vector2(94, 294)
+
+[node name="Star" type="Marker2D" parent="DropZone"]
+position = Vector2(-32, -451)
 
 [node name="Decorations" type="Node2D" parent="."]

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://butg52uyavt4b"
-path="res://.godot/imported/ToolMove.svg-68dbf993c1211d2295ae6cc833a4b363.ctex"
+path="res://.godot/imported/ToolMove.svg-648c52fb09d10c706b28aa3b0dff9c20.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://icons/ToolMove.svg"
-dest_files=["res://.godot/imported/ToolMove.svg-68dbf993c1211d2295ae6cc833a4b363.ctex"]
+source_file="res://addons/drag_and_drop/icons/ToolMove.svg"
+dest_files=["res://.godot/imported/ToolMove.svg-648c52fb09d10c706b28aa3b0dff9c20.ctex"]
 
 [params]
 

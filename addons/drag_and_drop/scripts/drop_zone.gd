@@ -1,5 +1,4 @@
-@icon("res://icons/DropZone.svg")
-extends Node
+extends Node2D
 class_name DropZone
 
 signal drop_evaluated(zone: DropZone, area: Area2D, plan: DropPlan)

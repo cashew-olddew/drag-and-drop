@@ -1,5 +1,4 @@
 @tool
-@icon("res://icons/ToolMove.svg")
 extends Node
 
 class_name Draggable
