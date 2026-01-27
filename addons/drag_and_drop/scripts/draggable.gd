@@ -18,6 +18,7 @@ enum DRAGGABLE_STATE {IDLE, DRAGGING, DROPPING, RETURNING, AUTO_MOVING}
 		update_configuration_warnings()
 
 @export_group("Behavior")
+## Controls the speed at which the draggable node moves towards the cursor or towards the drop zone when dropped or returning.
 @export_range(1.0, 100.0, 1.0) var dragging_speed: float = 50.0
 ## Z_Index dragged area will take. It is recommended to not
 ## set it to maximum as z_index is additive for children if 

@@ -12,17 +12,9 @@ A simple and extensible drag and drop plugin for Godot.
 
 ### Draggable Parameters
 
-`dragging_speed` (float, default: 50.0)
+`area_reference` (Area2D, default: null)
 
-Controls the speed at which the draggable node moves towards the cursor or towards the drop zone when dropped or returning.
-
----
-
-`type` (DraggableType)
-
-Contains information used by dropzones for checking if a Draggable is accepted.
-
-`DraggableType` is by default a Resource with a single `id` string property. This is generally enough for a DropZone to check against and accept or reject the Draggable. This can be extended with more properties if complex draggable checks are needed.
+Optional explicit reference to the target Area2D. Overwrites parent and owner references. The Area2D has to be an ancestor of this node.
 
 ---
 
@@ -32,26 +24,36 @@ The name of the drag action that's set up in the project settings InputMap. For 
 
 ---
 
+`dragging_speed` (float, default: 50.0)
+
+Controls the speed at which the draggable node moves towards the cursor or towards the drop zone when dropped or returning.
+
+---
+
 `drag_z_index` (int, default: 1000)
 
 Controls the z-index of the draggable node while it is being dragged. This ensures that the draggable appears above other nodes during the drag operation.
 
 ---
 
+`type` (DraggableType)
+
+Contains information used by dropzones for checking if a Draggable is accepted.
+
+`DraggableType` is by default a Resource with a single `id` string property. This is generally enough for a DropZone to check against and accept or reject the Draggable. This can be extended with more properties if complex draggable checks are needed.
+
+
 ### DropZone Parameters
+
+`area_reference` (Area2D, default: null)
+
+Optional explicit reference to the target Area2D. Overwrites parent and owner references. The Area2D has to be an ancestor of this node.
+
+---
 
 `attach_spot` (Node2D, default: DropZone owner)
 
 The node under which the Draggables will be attached as children when dropped onto this DropZone. By default, this is the DropZone's owner node.
-
----
-
-`snap_style` (SNAP_STYLE, default: SNAP_STYLE.SNAP_MARKERS)
-
-Defines how the Draggable will be positioned when dropped onto this DropZone.
-- `SNAP_STYLE.NONE`: The Draggable will remain at its current position.
-- `SNAP_STYLE.CENTER`: The Draggable will be centered on the DropZone owner's position
-- `SNAP_STYLE.SNAP_MARKERS`: The Draggable will snap to predefined Marker2D nodes that are children of the DropZone.
 
 ---
 
@@ -65,6 +67,15 @@ The plugin comes with three built-in DropBehaviors:
 - `drop_behavior_rearrange`: If a DropZone snapping point is occupied, the existing occupant will be moved to the closest free spot, making room for the new Draggable.
 
 Custom behaviors can be created by extending the DropBehavior resource.
+
+---
+
+`snap_style` (SNAP_STYLE, default: SNAP_STYLE.SNAP_MARKERS)
+
+Defines how the Draggable will be positioned when dropped onto this DropZone.
+- `SNAP_STYLE.NONE`: The Draggable will remain at its current position.
+- `SNAP_STYLE.CENTER`: The Draggable will be centered on the DropZone owner's position
+- `SNAP_STYLE.SNAP_MARKERS`: The Draggable will snap to predefined Marker2D nodes that are children of the DropZone.
 
 ---
 
