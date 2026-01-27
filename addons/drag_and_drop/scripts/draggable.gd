@@ -34,7 +34,8 @@ signal state_changed(area: Area2D, state: DRAGGABLE_STATE)
 func _ready():
 	o = owner as Area2D
 	assert(o != null, "Draggable node '%s' must be owned by an Area2D node" % name)
-	o.set_meta("draggable", self)
+	if not Engine.is_editor_hint():
+		o.set_meta("draggable", self)
 	initial_z_index = o.z_index
 	previous_position = o.global_position
 	next_position = o.global_position
