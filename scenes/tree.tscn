@@ -24,8 +24,8 @@ texture = ExtResource("2_qoq06")
 [node name="DropZone" type="Node2D" parent="." unique_id=459170038 node_paths=PackedStringArray("attach_spot")]
 script = ExtResource("2_bwx5j")
 attach_spot = NodePath("../Decorations")
-snap_style = 1
 drop_behavior = SubResource("Resource_ake3r")
+snap_style = 1
 accepted_draggable_types = Array[ExtResource("4_qd6xs")]([SubResource("Resource_18mvg")])
 metadata/_custom_type_script = "uid://nj1hdjl1vob2"
 

@@ -11,7 +11,7 @@ radius = 15.231546
 script = ExtResource("3_tsf7w")
 
 [node name="Bauble" type="Area2D" unique_id=1376955046]
-metadata/draggable = Object(Node,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","script":ExtResource("2_4nqyb"),"dragging_speed":50.0,"type":SubResource("Resource_tsf7w"),"drag_input_name":&"draggable_click","drag_z_index":1000,"state":0,"initial_z_index":0,"previous_position":Vector2(0, 0),"next_position":Vector2(0, 0),"o":null,"metadata/_custom_type_script":"uid://crmnw3ldr3xev")
+metadata/draggable = Object(Node,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","script":ExtResource("2_4nqyb"),"area_reference":null,"drag_input_name":&"draggable_click","dragging_speed":50.0,"drag_z_index":1000,"type":SubResource("Resource_tsf7w"),"state":0,"initial_z_index":0,"previous_position":Vector2(0, 0),"next_position":Vector2(0, 0),"a":null,"metadata/_custom_type_script":"uid://crmnw3ldr3xev")
 
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1271722200]

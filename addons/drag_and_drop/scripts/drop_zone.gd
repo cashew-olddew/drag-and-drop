@@ -1,3 +1,4 @@
+@tool
 extends Node2D
 class_name DropZone
 
@@ -16,21 +17,47 @@ enum SNAP_STYLE {
 	SNAP_MARKERS 
 }
 
+@export_group("Config")
+## Optional explicit reference to the target Area2D. Overwrites parent and owner references.
+## The Area2D has to be an ancestor of this node.
+@export var area_reference: Area2D = null:
+	set(value):
+		area_reference = value
+		update_configuration_warnings()
+## The node under which draggables will be reparented
 @export var attach_spot: Node2D
-@export var snap_style := SNAP_STYLE.SNAP_MARKERS
+
+@export_group("Behavior")
+## Defines what happens when a Draggable is dropped onto this DropZone. 
+## A DropBehavior's role is to determine if the Draggable is accepted and 
+## what `DropActions` will be executed.
 @export var drop_behavior: DropBehavior = DropBehaviorReject.new()
+@export var snap_style := SNAP_STYLE.SNAP_MARKERS
+## Information used for checking if Draggable is accepted.
+## The base DraggableType has an id that's checked by the
+## dropzone for matching
 @export var accepted_draggable_types: Array[DraggableType] = []
 var snapping_points: Array[SnappingSpot] = []
-var o: Area2D = null
+var a: Area2D = null
 
 #region Lifecycle
 
 func _ready():
-	o = owner as Area2D
-	assert(o != null, "DropZone node '%s' must be owned by an Area2D node" % name)
-	o.set_meta("dropzone", self)
+	var candidate: Area2D = null
+	if area_reference != null:
+		assert(area_reference is Area2D, "Selected node for 'area_reference' must be an Area2D")
+		assert(area_reference.is_ancestor_of(self), "Selected Area2D must be an ancestor of this DropZone")
+		candidate = area_reference
+	elif get_parent() is Area2D:
+		candidate = get_parent() as Area2D
+	elif owner is Area2D:
+		candidate = owner as Area2D
+	a = candidate
+	assert(a != null, "DropZone node '%s' must be linked to an Area2D (export, parent, or owner)" % name)
+	if a != null and not Engine.is_editor_hint():
+		a.set_meta("dropzone", self)
 	if not attach_spot:
-		attach_spot = o
+		attach_spot = a
 	if accepted_draggable_types.size() == 0:
 		accepted_draggable_types.append(DraggableType.new())
 	_initialize_snapping_positions()
@@ -68,7 +95,7 @@ func _initialize_snapping_positions():
 
 		SNAP_STYLE.SNAP_CENTER:
 			var spot := SnappingSpot.new()
-			spot.point = o
+			spot.point = a
 			spot.occupant = null
 			snapping_points.append(spot)
 
@@ -167,3 +194,13 @@ func _find_ephemeral_spot_for(area: Area2D) -> SnappingSpot:
 	return null
 
 #endregion
+
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings = PackedStringArray()
+	if area_reference != null and not (area_reference is Area2D):
+		warnings.append("Selected node for 'area_reference' is not an Area2D")
+	if area_reference != null and area_reference is Area2D and not area_reference.is_ancestor_of(self):
+		warnings.append("Selected Area2D is not an ancestor of this DropZone; prefer parent/grandparent to avoid cross-branch issues")
+	if area_reference == null and not (get_parent() is Area2D) and not (owner is Area2D):
+		warnings.append("No Area2D found via export, parent, or owner; DropZone requires an Area2D")
+	return warnings
