@@ -141,8 +141,8 @@ See examples of drop action implementations in [drop_actions](./addons/drag_and_
 - `drag_started(area: Area2D)`  
   Emitted when the drag input is pressed while the Draggable is IDLE, switching the state to DRAGGING. Payload is the owner Area2D.
 
-- `drag_ended(area: Area2D)`  
-  Emitted immediately after releasing the drag input if the Draggable is DRAGGING. This happens before evaluating the drop or moving the Draggable. Payload is the owner Area2D.
+- `drag_ended(area: Area2D, drop_spot: SnappingSpot)`  
+  Emitted immediately after releasing the drag input if the Draggable is DRAGGING. This happens before evaluating the drop or moving the Draggable. Payload is the owner Area2D and the SnappingSpot where it will be dropped or null if the area won't drop on drag end.
 
 - `state_changed(area: Area2D, state: DRAGGABLE_STATE)`  
   Emitted on every state transition (IDLE, DRAGGING, DROPPING, RETURNING, AUTO_MOVING). Use to detect completion when it returns to IDLE after animations.

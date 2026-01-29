@@ -70,16 +70,19 @@ func try_dropping(area: Area2D):
 	var plan := drop_behavior.evaluate(self, area)
 	drop_evaluated.emit(self, area, plan)
 	
-	if not plan.can_drop:
-		drop_rejected.emit(self, area, plan)
-		return null
+	if plan.can_drop:
+		drop_accepted.emit(self, area, plan)
+		_apply_plan(plan, area)
+		drop_applied.emit(self, area, plan)
+		
+		if plan.drop_target:
+			return plan.drop_target
+		
+		if snap_style == SNAP_STYLE.NO_SNAP:
+			return _find_ephemeral_spot_for(area)
 	
-	drop_accepted.emit(self, area, plan)
-	_apply_plan(plan, area)
-	drop_applied.emit(self, area, plan)
-	if plan.drop_target:
-		return plan.drop_target.point.global_position
-	return area.global_position
+	drop_rejected.emit(self, area, plan)
+	return null
 
 #endregion
 
@@ -141,14 +144,18 @@ func _attach(area: Area2D):
 	
 	var draggable = area.get_meta("draggable")
 	if draggable:
-		draggable.drag_started.connect(_on_draggable_drag_started, CONNECT_ONE_SHOT)
-		
+		if not draggable.drag_started.is_connected(_on_draggable_drag_started):
+			draggable.drag_started.connect(_on_draggable_drag_started)
+		if not draggable.drag_ended.is_connected(_on_draggable_drag_ended):
+			draggable.drag_ended.connect(_on_draggable_drag_ended)
 func _detach(area: Area2D):
 	DropUtils.clear_occupant_reference(self, area)
 	
 	var draggable = area.get_meta("draggable")
 	if draggable and draggable.drag_started.is_connected(_on_draggable_drag_started):
 			draggable.drag_started.disconnect(_on_draggable_drag_started)
+	if draggable and draggable.drag_ended.is_connected(_on_draggable_drag_ended):
+		draggable.drag_ended.disconnect(_on_draggable_drag_ended)
 
 	# For NO_SNAP, remove ephemeral spots that tracked this area
 	if snap_style == SNAP_STYLE.NO_SNAP:
@@ -158,15 +165,27 @@ func _detach(area: Area2D):
 #region Signal Handlers
 
 func _on_draggable_drag_started(area: Area2D):
-	area.reparent(get_tree().root) # Temporary reparent to root while draggable in hand
-	for entry in snapping_points:
-		if entry.occupant == area:
-			entry.occupant = null
-			occupant_changed.emit(self, entry, area, null)
-
 	# For NO_SNAP, remove ephemeral spots that were tracking this area
 	if snap_style == SNAP_STYLE.NO_SNAP:
 		_remove_ephemeral_spots_for(area)
+
+func _on_draggable_drag_ended(area: Area2D, drop_spot: SnappingSpot):
+	# If drop_spot is null, the draggable is returning
+	if drop_spot != null:
+		if not snapping_points.has(drop_spot):
+			_detach(area)
+		return
+	
+	var draggable = area.get_meta("draggable")
+	
+	if snap_style == SNAP_STYLE.NO_SNAP:
+		_attach(area)
+		_make_ephemeral_spot(area)
+	else:
+		for spot in snapping_points:
+			if spot.occupant == area:
+				_attach(area)
+				break
 
 #endregion
 

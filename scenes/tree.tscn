@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://nj1hdjl1vob2" path="res://addons/drag_and_drop/scripts/drop_zone.gd" id="2_bwx5j"]
 [ext_resource type="Texture2D" uid="uid://dvu3ulj3i4e4o" path="res://assets/tree.png" id="2_qoq06"]
-[ext_resource type="Script" uid="uid://b5wqxyc42r5u" path="res://addons/drag_and_drop/resources/drop_behaviors/drop_behavior_reject.gd" id="3_qd6xs"]
+[ext_resource type="Script" uid="uid://b3yrcfpcbpfhu" path="res://addons/drag_and_drop/resources/drop_behaviors/drop_behavior_replace.gd" id="3_qd6xs"]
 [ext_resource type="Script" uid="uid://djdmnemxrx7bg" path="res://addons/drag_and_drop/resources/draggable_types/draggable_type.gd" id="4_qd6xs"]
 
-[sub_resource type="Resource" id="Resource_ake3r"]
+[sub_resource type="Resource" id="Resource_qd6xs"]
 script = ExtResource("3_qd6xs")
-metadata/_custom_type_script = "uid://b5wqxyc42r5u"
+metadata/_custom_type_script = "uid://b3yrcfpcbpfhu"
 
 [sub_resource type="Resource" id="Resource_18mvg"]
 script = ExtResource("4_qd6xs")
@@ -24,8 +24,7 @@ texture = ExtResource("2_qoq06")
 [node name="DropZone" type="Node2D" parent="." unique_id=459170038 node_paths=PackedStringArray("attach_spot")]
 script = ExtResource("2_bwx5j")
 attach_spot = NodePath("../Decorations")
-drop_behavior = SubResource("Resource_ake3r")
-snap_style = 1
+drop_behavior = SubResource("Resource_qd6xs")
 accepted_draggable_types = Array[ExtResource("4_qd6xs")]([SubResource("Resource_18mvg")])
 metadata/_custom_type_script = "uid://nj1hdjl1vob2"
 

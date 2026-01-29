@@ -33,12 +33,13 @@ var state = DRAGGABLE_STATE.IDLE
 
 var initial_z_index = 0
 var previous_position := Vector2.ZERO
+var previous_parent = null
 var next_position := Vector2.ZERO
 
 var a: Area2D = null
 
 signal drag_started(area: Area2D)
-signal drag_ended(area: Area2D)
+signal drag_ended(area: Area2D, drop_spot: SnappingSpot)
 signal state_changed(area: Area2D, state: DRAGGABLE_STATE)
 
 #region Lifecycle
@@ -94,6 +95,9 @@ func _handle_returning(delta: float) -> void:
 	
 	if a.global_position.distance_to(previous_position) <= 2.0:
 		a.global_position = previous_position
+		
+		if previous_parent and a.get_parent() != previous_parent:
+			a.reparent(previous_parent)
 		_change_state_to(DRAGGABLE_STATE.IDLE)
 
 func _handle_auto_moving(delta: float) -> void:
@@ -114,25 +118,28 @@ func _move_toward(target: Vector2, delta: float) -> void:
 func _on_input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed(drag_input_name) and state == DRAGGABLE_STATE.IDLE:
 		previous_position = a.global_position
+		previous_parent = a.get_parent()
+		a.reparent(get_tree().root)
+		
 		_change_state_to(DRAGGABLE_STATE.DRAGGING)
 		drag_started.emit(a)
 
 func _input(event):
 	if event.is_action_released(drag_input_name) and state == DRAGGABLE_STATE.DRAGGING:
-		drag_ended.emit(a)
 		var overlapping_areas = a.get_overlapping_areas()
-		var droparea: DropZone = _is_over_dropzone(overlapping_areas)
+		var dropzone: DropZone = _is_over_dropzone(overlapping_areas)
 		
-		if not droparea:
-			move_to(previous_position, DRAGGABLE_STATE.RETURNING)
-			return
-			
-		var drop_spot = droparea.try_dropping(a)
+		var drop_spot: SnappingSpot = null
+		if dropzone:
+			drop_spot = dropzone.try_dropping(a)
+		
+		# Emit with the result (null if returning)
+		drag_ended.emit(a, drop_spot)
+		
 		if drop_spot:
-			move_to(drop_spot, DRAGGABLE_STATE.DROPPING)
-			return
-			
-		move_to(previous_position, DRAGGABLE_STATE.RETURNING)
+			move_to(drop_spot.point.global_position, DRAGGABLE_STATE.DROPPING)
+		else:
+			move_to(previous_position, DRAGGABLE_STATE.RETURNING)
 #endregion
 
 #region Exposed Functions
