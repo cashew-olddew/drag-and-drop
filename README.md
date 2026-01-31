@@ -177,7 +177,7 @@ If you'd like to see an improvement, but don't know how to contribute, you can [
 
 ## License
 
-This project and shader falls under the [CC0](LICENSE) license, meaning that you can do anything you want with the code here, even use it commercially. You do not have any obligation to credit me, but doing so would be highly appreciated.
+This project falls under the [CC0](LICENSE) license, meaning that you can do anything you want with the code here, even use it commercially. You do not have any obligation to credit me, but doing so would be highly appreciated.
 
 ## Support
 
