@@ -34,6 +34,8 @@ enum DRAGGABLE_STATE {IDLE, DRAGGING, DROPPING, RETURNING, AUTO_MOVING}
 ## set it to maximum as z_index is additive for children if 
 ## z_as_relative is set and they also have to be outside of the defined range
 @export_range(-4096, 4096) var drag_z_index: int = 1000
+## Enable to use relative dragging instead of snapping the center to the mouse
+@export var relative_dragging: bool = false
 ## Information used by dropzones for checking if Draggable is accepted.
 ## The base DraggableType has an id that's checked by the
 ## dropzone for matching
@@ -42,6 +44,7 @@ enum DRAGGABLE_STATE {IDLE, DRAGGING, DROPPING, RETURNING, AUTO_MOVING}
 var state = DRAGGABLE_STATE.IDLE
 
 var initial_z_index = 0
+var drag_offset := Vector2.ZERO
 var previous_position := Vector2.ZERO
 var previous_parent = null
 var next_position := Vector2.ZERO
@@ -91,7 +94,7 @@ func _process(delta):
 			_handle_auto_moving(delta)
 
 func _handle_dragging(delta: float) -> void:
-	a.global_position = _move_toward(a.global_position, a.get_global_mouse_position(), delta)
+	a.global_position = _move_toward(a.global_position, a.get_global_mouse_position() + drag_offset, delta)
 
 func _handle_dropping(delta: float) -> void:
 	a.global_position = _move_toward(a.global_position, next_position, delta)
@@ -138,6 +141,9 @@ func _on_input_event(_viewport, event, _shape_idx):
 			a.reparent(drag_layer_parent)
 		else:
 			a.reparent(get_tree().root)
+		
+		if relative_dragging:
+			drag_offset = a.global_position - event.position
 		
 		_change_state_to(DRAGGABLE_STATE.DRAGGING)
 		drag_started.emit(a)
