@@ -49,6 +49,12 @@ Controls the z-index of the draggable node while it is being dragged. This ensur
 
 ---
 
+`relative_dragging` (bool, default: false)
+
+If true, the draggable will maintain the initial offset between the cursor and the node's position when dragging starts. If false, the node will snap to the cursor position when dragging starts.
+
+---
+
 `type` (DraggableType)
 
 Contains information used by dropzones for checking if a Draggable is accepted.
