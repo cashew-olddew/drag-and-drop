@@ -204,3 +204,9 @@ This project falls under the [CC0](LICENSE) license, meaning that you can do any
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H2H2XSCXW)
 
 Donations are appreciated and help me continue creating free content. Please donate only what you can afford. 🥜
+
+## Games Made using the addon
+
+Have you used the addon in a game? Share it with us and have it pinned in the README!
+
+1. [Guardin Gnomes](https://colordrop-games.itch.io/guardin-gnomes) - submission for the [7DRL Challenge 2026](https://itch.io/jam/7drl-challenge-2026)
