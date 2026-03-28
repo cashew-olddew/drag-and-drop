@@ -2,6 +2,8 @@
 
 A simple and extensible drag and drop plugin for Godot.
 
+_Note: Currently, this was implemented with Area2D nodes in mind. For making the addon work with Control nodes, check out this issue:_ [Making the plugin work with Control nodes (or other parent nodes)](https://github.com/cashew-olddew/drag-and-drop/issues/10)
+
 ## Features
 
 - **Draggable** - A node that can be attached to any Area2D to make it draggable.
