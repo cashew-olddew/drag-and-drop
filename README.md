@@ -212,3 +212,4 @@ Donations are appreciated and help me continue creating free content. Please don
 Have you used the addon in a game? Share it with us and have it pinned in the README!
 
 1. [Guardin Gnomes](https://colordrop-games.itch.io/guardin-gnomes) - submission for the [7DRL Challenge 2026](https://itch.io/jam/7drl-challenge-2026)
+2. [Unslopping Machine](https://scalamando.itch.io/unslopping-machine) - submission for the [Very Serious Juniper Dev Game Jam](https://itch.io/jam/theveryseriousjuniperdevgamejam)
